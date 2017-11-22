@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JoystickSimulator", "JoystickSimulator\JoystickSimulator.csproj", "{E8DBDA45-B31A-41DB-B3F5-15BFA17AF9B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8DBDA45-B31A-41DB-B3F5-15BFA17AF9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8DBDA45-B31A-41DB-B3F5-15BFA17AF9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8DBDA45-B31A-41DB-B3F5-15BFA17AF9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8DBDA45-B31A-41DB-B3F5-15BFA17AF9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3509BCE3-CF8D-4701-A92B-5E5AFF8E3DE8}
+	EndGlobalSection
+EndGlobal

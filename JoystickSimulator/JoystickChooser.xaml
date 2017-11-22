@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="JoystickSimulator.JoystickChooser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="White">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="ControlerListView" Grid.Row="1" ItemsSource="{Binding Path=connectedControllers}" MouseDoubleClick="ControlerListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Authors">
+                    <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Path=Properties.InstanceName}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Path=Information.Type}" />
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Properties.JoystickId}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Available JoystickControllers :" Grid.Column="0" VerticalAlignment="Center"/>
+            <Button x:Name="bt_refreshControllers" Content="Refresh controller list" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Click="bt_refreshControllers_Click"/>
+        </Grid>
+        <Label  Content="Current JoystickController ID: TODO" Grid.Row="2"/>
+    </Grid>
+</UserControl>
