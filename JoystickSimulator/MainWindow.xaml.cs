@@ -35,7 +35,7 @@ namespace JoystickSimulator
             //Abonnement aux énénements
             JoystickChooserControl.JoystickSelectedEvent += new EventHandler(JoystickSelectedHandler);
             JoystickChooserControl.RefreshButttonPressed += new EventHandler(RefreshButtonPressedHandler);
-            joyController.InputPacketSent += new EventHandler(InputPacketSentHandler);
+            joyController.InputDataStored += new EventHandler(InputPacketSentHandler);
 
             //Binding de la view à la liste de joysticks
             JoystickChooserControl.ControlerListView.ItemsSource = joyController.ConnectedControllers;
@@ -65,6 +65,7 @@ namespace JoystickSimulator
         void InputPacketSentHandler(object sender, System.EventArgs e) {
             //((InputPacketEventArgs)e). ///bla bla calcul position to math controller
             //bla bla send infos to the view
+           // Console.WriteLine(((InputPacketEventArgs)e).ControlerData[0]);
         }
     }
 }

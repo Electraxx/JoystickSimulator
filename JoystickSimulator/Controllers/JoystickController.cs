@@ -14,9 +14,11 @@ namespace JoystickSimulator.Controllers
         /// Représente le joystick utilisé
         /// </summary>
         private Joystick currentJoystick;
-        public Joystick CurrentJoystick {
+        public Joystick CurrentJoystick
+        {
             get => currentJoystick;
-            set {
+            set
+            {
                 if (value == null) return;
 
                 currentJoystick = value;
@@ -51,11 +53,12 @@ namespace JoystickSimulator.Controllers
             private set => connectedControllers = value;
         }
 
-        public Dictionary<int,double> InputValues { get; set; }
+        public Dictionary<JoystickOffset, double> InputValues { get; private set; }
+        public Dictionary<JoystickOffset, int> AxisValues { get; private set; }
 
-        public EventHandler InputPacketSent { get; set; }
-        
-        private readonly List<int> xyzOffsetList = new List<int> { (int)JoystickOffset.X, (int)JoystickOffset.Y, (int)JoystickOffset.Z } ;
+        public EventHandler InputDataStored { get; set; }
+
+        private readonly List<JoystickOffset> xyzOffsetList = new List<JoystickOffset> { JoystickOffset.X, JoystickOffset.Y, JoystickOffset.Z };
 
         private ObservableCollection<Joystick> connectedControllers;
         #endregion
@@ -64,7 +67,8 @@ namespace JoystickSimulator.Controllers
         {
             ConnectedControllers = new ObservableCollection<Joystick>();
             connectedControllers = new ObservableCollection<Joystick>();
-            InputValues = new Dictionary<int, double>();
+            InputValues = new Dictionary<JoystickOffset, double>();
+            AxisValues = new Dictionary<JoystickOffset, int>();
             di = new DirectInput();
         }
 
@@ -85,8 +89,24 @@ namespace JoystickSimulator.Controllers
         private void AcquireInput(object sender, EventArgs e)
         {
             //JoystickUpdate[] ControlerData = CurrentJoystick.GetBufferedData();
+
             var controlerData = CurrentJoystick.GetBufferedData();
-            InputPacketSent(sender, new InputPacketEventArgs(controlerData));
+            foreach (var action in controlerData)
+            {
+                if (!xyzOffsetList.Contains(action.Offset))
+                { //Boutons
+                    if (action.Value == 128)
+                        InputValues[action.Offset] = DateTime.Now.TimeOfDay.TotalMilliseconds;
+                    else if (action.Value == 0)
+                        InputValues.Remove(action.Offset);
+                }
+                else //Axis
+                {
+                    AxisValues[action.Offset] = action.Value;
+                }
+            }
+            //Les données ont été analysées, on fire l'event du MainWindow
+            InputDataStored(sender, new InputPacketEventArgs());
         }
     }
 }
