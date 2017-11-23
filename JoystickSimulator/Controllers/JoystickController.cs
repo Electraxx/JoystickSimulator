@@ -91,6 +91,7 @@ namespace JoystickSimulator.Controllers
             //JoystickUpdate[] ControlerData = CurrentJoystick.GetBufferedData();
 
             var controlerData = CurrentJoystick.GetBufferedData();
+
             foreach (var action in controlerData)
             {
                 if (!xyzOffsetList.Contains(action.Offset))

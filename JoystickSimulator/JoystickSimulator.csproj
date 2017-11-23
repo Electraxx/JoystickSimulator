@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
+    <Compile Include="Models\InputInterpreter.cs" />
     <Compile Include="Packets\InputPacketEventArgs.cs" />
     <Compile Include="InputReceiver.cs" />
     <Compile Include="Controllers\JoystickController.cs" />

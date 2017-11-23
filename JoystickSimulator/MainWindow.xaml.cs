@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using JoystickSimulator.Controllers;
+using JoystickSimulator.Models;
 using JoystickSimulator.Packets;
+using SharpDX.DirectInput;
 
 namespace JoystickSimulator
 {
@@ -41,6 +44,9 @@ namespace JoystickSimulator
             JoystickChooserControl.ControlerListView.ItemsSource = joyController.ConnectedControllers;
 
             viewerControl.SetSeatPoint(fileController.Cm.Seat);
+            //InputAction l = ActionList.GetActionByName("MoveRotationPoint");
+            InputInterpreter ii = new InputInterpreter();
+            //var lol = ii.GetAction(new Dictionary<JoystickOffset, double> { {JoystickOffset.Buttons4,100}, { JoystickOffset.Buttons7, 100 }, { JoystickOffset.Buttons10, 100 }});
         }
 
         /// <summary>
@@ -65,7 +71,8 @@ namespace JoystickSimulator
         void InputPacketSentHandler(object sender, System.EventArgs e) {
             //((InputPacketEventArgs)e). ///bla bla calcul position to math controller
             //bla bla send infos to the view
-           // Console.WriteLine(((InputPacketEventArgs)e).ControlerData[0]);
+            
+                Console.WriteLine(joyController.AxisValues[JoystickOffset.X]);
         }
     }
 }
