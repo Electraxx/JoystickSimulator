@@ -7,8 +7,8 @@
         xmlns:usersControls="clr-namespace:JoystickSimulator"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="600" Width="800" ResizeMode="NoResize">
-    <TabControl x:Name="tabControl">
+        Height="650" Width="800" ResizeMode="NoResize">
+    <TabControl x:Name="tabControler">
         <TabItem Header="Controllers" x:Name="ControllerSelectionTab">
             <Grid>
                 <usersControls:JoystickChooser x:Name="JoystickChooserControl" />
@@ -16,7 +16,7 @@
         </TabItem>
         <TabItem Header="Viewer" x:Name="visualizerTab">
             <Grid>
-                <usersControls:Viewer x:Name="viewerControl" />
+                <usersControls:Viewer x:Name="ViewerControl" />
             </Grid>
         </TabItem>
     </TabControl>

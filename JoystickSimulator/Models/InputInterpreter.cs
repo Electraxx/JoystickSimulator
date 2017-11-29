@@ -16,9 +16,7 @@ namespace JoystickSimulator.Models
 
         public InputAction GetAction(Dictionary<JoystickOffset, double> inputs) {
             if (inputs.Count == 0) //Pas de boutons pressés --> On retourne l'action par défaut
-            {
                 return ActionList.GetActionByName("MoveNeutralPoint");
-            }
 
             //On trouve la bonne action (normalement il n'en retournera qu'une)
             IEnumerable<InputAction> results = ActionList.List.Where(action => 
@@ -30,6 +28,7 @@ namespace JoystickSimulator.Models
             return results.Any() ? results.First() : ActionList.GetActionByName("MoveNeutralPoint");
         }
     }
+
     public class InputAction
     {
         public double TimeNeeded { get; set; }
@@ -52,7 +51,7 @@ namespace JoystickSimulator.Models
     public static class ActionList
     {
         public static List<InputAction> List { get; private set; } = new List<InputAction> {
-            new InputAction(100,"SwitchSimulatorState",JoystickOffset.Buttons4,JoystickOffset.Buttons10, JoystickOffset.Buttons7),
+            new InputAction(100,"SwitchSimulatorState",JoystickOffset.Buttons0,JoystickOffset.Buttons10, JoystickOffset.Buttons7),
             new InputAction(0,"MoveSimulator",JoystickOffset.Buttons1),
             new InputAction(0,"MoveRotationPoint",JoystickOffset.Buttons0),
             new InputAction(0, "MoveNeutralPoint")

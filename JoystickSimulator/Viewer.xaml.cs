@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,10 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using JoystickSimulator.Helpers;
+using JoystickSimulator.Models;
+using JoystickSimulator.Packets;
+using SharpDX.DirectInput;
+using TextAlignment = System.Windows.TextAlignment;
 
 namespace JoystickSimulator
 {
@@ -30,12 +35,48 @@ namespace JoystickSimulator
 
         private double zoomFactor;
 
+        private InputAction lastAction;
+
+        private bool enabled;
+
+        public EventHandler SliderValueChanged { get; set; }
+
         public Viewer()
         {
             InitializeComponent();
             zoomFactor = 4;
             muscleLabels = new List<TextBlock>();
             SeatPoints = null;
+            lastAction = null;
+            enabled = false;
+        }
+
+        public void Do(InputAction action, Dictionary<JoystickOffset, int> joyControllerAxisValues)
+        {
+            switch (action.Name)
+            {
+                case "SwitchSimulatorState":
+                    if (lastAction.Name != "SwitchSimulatorState")
+                        SwitchSimulatorState();
+                    break;
+                case "MoveSimulator":
+                    MoveRect(movementCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    break;
+                case "MoveRotationPoint":
+                    MoveRect(rotationPointCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    break;
+                case "MoveNeutralPoint":
+                    MoveRect(neutralCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    break;
+            }
+
+            lastAction = action;
+        }
+
+        private void SwitchSimulatorState()
+        {
+            armedFilter.Opacity = armedFilter.Opacity > 0 ? 0 : 1;
+            enabled = !enabled;
         }
 
         private void Canvas_Initialized(object sender, EventArgs e)
@@ -100,7 +141,7 @@ namespace JoystickSimulator
             //Liste de point3d en liste de point2d
             //Point3D p = new Point3D();
             //List<double> motionSize = motionCalc.GetMuscleSize(motionCalc.Seat);
-            List<double> motionSize = new double[] {0,0,0,0,0,0}.OfType<double>().ToList(); //temporary
+            List<double> motionSize = new double[] { 0, 0, 0, 0, 0, 0 }.OfType<double>().ToList(); //temporary
             for (int i = 0; i < SeatPoints.Count; i++)
             {
                 muscleLabels.Add(new TextBlock());
@@ -158,6 +199,9 @@ namespace JoystickSimulator
                 Height = DrawPanel.ActualHeight
             };
 
+            foreach (var muscleLabel in muscleLabels) //Linq possible, je pense
+                muscleLabel.TextAlignment = TextAlignment.Center;
+
             DrawPanel.Children.Add(armedFilter);
         }
 
@@ -177,6 +221,24 @@ namespace JoystickSimulator
         public void SetSeatPoint(List<Point> points)
         {
             SeatPoints = points;
+        }
+
+        private void MoveRect(Rectangle rect, int xValue, int yValue)
+        {
+            Canvas.SetLeft(rect, (xValue / (65535 / DrawPanel.ActualHeight)) * (enabled ? 1 : 0));
+            Canvas.SetTop(rect, (yValue / (65535 / DrawPanel.ActualHeight)) * (enabled ? 1 : 0));
+        }
+
+        public void UpdateTextblocks(List<double> labelList)
+        {
+
+            var txtBlocksAndValues = labelList.Zip(muscleLabels, (v, t) => new { Value = v, TxtBlock = t });
+            foreach (var item in txtBlocksAndValues.Select((pair, i) => new { i, pair }))
+                item.pair.TxtBlock.Text = $" Verrin {item.i}\n{item.pair.Value:0.00}";
+        }
+
+        private void sensibilitySlider_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            SliderValueChanged(sender, new SliderChangedEventArgs(((Slider) sender).Value));
         }
     }
 }

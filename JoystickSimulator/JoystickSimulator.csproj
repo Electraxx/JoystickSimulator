@@ -68,8 +68,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\SimulatorController.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
+    <Compile Include="Models\DAC.cs" />
     <Compile Include="Models\InputInterpreter.cs" />
+    <Compile Include="Models\Simulator.cs" />
     <Compile Include="Packets\InputPacketEventArgs.cs" />
     <Compile Include="InputReceiver.cs" />
     <Compile Include="Controllers\JoystickController.cs" />
@@ -78,6 +81,8 @@
     <Compile Include="Models\Instruction.cs" />
     <Compile Include="Models\MotionCalculation.cs" />
     <Compile Include="Helpers\PointListHelper.cs" />
+    <Compile Include="Packets\SliderChangedEventArgs.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Viewer.xaml.cs">
       <DependentUpon>Viewer.xaml</DependentUpon>
     </Compile>

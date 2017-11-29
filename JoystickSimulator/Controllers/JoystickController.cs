@@ -58,7 +58,7 @@ namespace JoystickSimulator.Controllers
 
         public EventHandler InputDataStored { get; set; }
 
-        private readonly List<JoystickOffset> xyzOffsetList = new List<JoystickOffset> { JoystickOffset.X, JoystickOffset.Y, JoystickOffset.Z };
+        private readonly List<JoystickOffset> xyzOffsetList = new List<JoystickOffset> { JoystickOffset.X, JoystickOffset.Y, JoystickOffset.Z, JoystickOffset.Sliders0 };
 
         private ObservableCollection<Joystick> connectedControllers;
         #endregion
@@ -68,7 +68,12 @@ namespace JoystickSimulator.Controllers
             ConnectedControllers = new ObservableCollection<Joystick>();
             connectedControllers = new ObservableCollection<Joystick>();
             InputValues = new Dictionary<JoystickOffset, double>();
-            AxisValues = new Dictionary<JoystickOffset, int>();
+            AxisValues = new Dictionary<JoystickOffset, int> {
+                {JoystickOffset.X, 65535/2},
+                {JoystickOffset.Y, 65535/2},
+                {JoystickOffset.Z, 65535/2},
+                {JoystickOffset.Sliders0, 65535/2}
+            };
             di = new DirectInput();
         }
 
@@ -107,6 +112,7 @@ namespace JoystickSimulator.Controllers
                 }
             }
             //Les données ont été analysées, on fire l'event du MainWindow
+
             InputDataStored(sender, new InputPacketEventArgs());
         }
     }

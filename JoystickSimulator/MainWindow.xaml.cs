@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using JoystickSimulator.Controllers;
 using JoystickSimulator.Models;
@@ -11,7 +12,8 @@ namespace JoystickSimulator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
 
         /// <summary>
         /// EventHandlers
@@ -23,8 +25,9 @@ namespace JoystickSimulator
         /// Contrôleurs
         /// </summary>
         private JoystickController joyController;
-        private MathController mathController;
         private FileController fileController;
+        private InputInterpreter inputInterpreter;
+        private SimulatorController simController;
 
         public MainWindow()
         {
@@ -33,7 +36,7 @@ namespace JoystickSimulator
             //Création des contrôleurs
             joyController = new JoystickController();
             fileController = new FileController();
-            mathController = new MathController(fileController.Cm);
+            //mathController = new MathController(fileController.Cm);
 
             //Abonnement aux énénements
             JoystickChooserControl.JoystickSelectedEvent += new EventHandler(JoystickSelectedHandler);
@@ -43,10 +46,10 @@ namespace JoystickSimulator
             //Binding de la view à la liste de joysticks
             JoystickChooserControl.ControlerListView.ItemsSource = joyController.ConnectedControllers;
 
-            viewerControl.SetSeatPoint(fileController.Cm.Seat);
-            //InputAction l = ActionList.GetActionByName("MoveRotationPoint");
-            InputInterpreter ii = new InputInterpreter();
-            //var lol = ii.GetAction(new Dictionary<JoystickOffset, double> { {JoystickOffset.Buttons4,100}, { JoystickOffset.Buttons7, 100 }, { JoystickOffset.Buttons10, 100 }});
+            ViewerControl.SetSeatPoint(fileController.Cm.Seat);
+            inputInterpreter = new InputInterpreter();
+
+            visualizerTab.IsEnabled = false;
         }
 
         /// <summary>
@@ -54,9 +57,18 @@ namespace JoystickSimulator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void JoystickSelectedHandler(object sender, System.EventArgs e) {
+        private void JoystickSelectedHandler(object sender, EventArgs e)
+        {
             joyController.CurrentJoystick = ((JoystickEventArgs)e).Joystick;
-            tabControl.SelectedIndex = 1;
+
+            if (joyController.CurrentJoystick == null)
+                return; //vérification
+
+            simController = new SimulatorController(fileController.Cm, (int)ViewerControl.sensibilitySlider.Value);
+            ViewerControl.RotationPointLabel.DataContext = simController.Simulator.RotationPoint;
+
+            visualizerTab.IsEnabled = true;
+            tabControler.SelectedValue = visualizerTab;
         }
 
         /// <summary>
@@ -64,15 +76,18 @@ namespace JoystickSimulator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void RefreshButtonPressedHandler(object sender, System.EventArgs e) {
+        private void RefreshButtonPressedHandler(object sender, EventArgs e)
+        {
             joyController.RefreshJoyStickList();
         }
 
-        void InputPacketSentHandler(object sender, System.EventArgs e) {
-            //((InputPacketEventArgs)e). ///bla bla calcul position to math controller
-            //bla bla send infos to the view
-            
-                Console.WriteLine(joyController.AxisValues[JoystickOffset.X]);
+        private void InputPacketSentHandler(object sender, EventArgs e)
+        {
+            InputAction action = inputInterpreter.GetAction(joyController.InputValues);
+
+            simController.Do(action, joyController.AxisValues);
+            ViewerControl.UpdateTextblocks(simController.LastSize);
+            ViewerControl.Do(action, joyController.AxisValues);
         }
     }
 }
