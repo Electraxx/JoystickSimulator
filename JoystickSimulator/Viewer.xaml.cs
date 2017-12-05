@@ -49,9 +49,10 @@ namespace JoystickSimulator
             SeatPoints = null;
             lastAction = null;
             enabled = false;
+            //SliderValueChanged = new EventHandler(SliderValueChanged);
         }
 
-        public void Do(InputAction action, Dictionary<JoystickOffset, int> joyControllerAxisValues)
+        public void Do(InputAction action, AxisState axisState)
         {
             switch (action.Name)
             {
@@ -60,13 +61,13 @@ namespace JoystickSimulator
                         SwitchSimulatorState();
                     break;
                 case "MoveSimulator":
-                    MoveRect(movementCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    MoveRect(movementCursor, axisState.X, axisState.Y);
                     break;
                 case "MoveRotationPoint":
-                    MoveRect(rotationPointCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    MoveRect(rotationPointCursor, axisState.X, axisState.Y);
                     break;
                 case "MoveNeutralPoint":
-                    MoveRect(neutralCursor, joyControllerAxisValues[JoystickOffset.X], joyControllerAxisValues[JoystickOffset.Y]);
+                    MoveRect(neutralCursor, axisState.X, axisState.Y);
                     break;
             }
 
@@ -237,8 +238,9 @@ namespace JoystickSimulator
                 item.pair.TxtBlock.Text = $" Verrin {item.i}\n{item.pair.Value:0.00}";
         }
 
-        private void sensibilitySlider_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            SliderValueChanged(sender, new SliderChangedEventArgs(((Slider) sender).Value));
+        private void sensibilitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SliderValueChanged?.Invoke(sender, new SliderChangedEventArgs(((Slider)sender).Value));
         }
     }
 }

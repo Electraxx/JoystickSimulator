@@ -27,14 +27,14 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="Point de rotation"/>
-                <Label Content="Recorder (F6)" Grid.Row="1"/>
-                <Label Content="Save (F9)" Grid.Row="2"/>
+                <Label Content="Recorder (F9)" Grid.Row="1"/>
+                <Label Content="Save (F6)" Grid.Row="2"/>
                 <Label Content="Impossible" Grid.Row="2" Grid.Column="2"/>
-                <Label Content="off" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Name="recStateLabel"/>
+                <Label Content="off" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Name="RecorderStateLabel"/>
 
                 <Label Grid.Column="2" x:Name="RotationPointLabel"  ContentStringFormat=""/>
 
-                <Slider Grid.Row="4" VerticalAlignment="Center" x:Name="sensibilitySlider" Maximum="80" Minimum="10" Value="45" LargeChange="10" SmallChange="1" MouseUp="sensibilitySlider_MouseUp"/>
+                <Slider Grid.Row="4" VerticalAlignment="Center" x:Name="sensibilitySlider" Maximum="80" Minimum="10" Value="45" LargeChange="10" SmallChange="1" ValueChanged="sensibilitySlider_ValueChanged"/>
                 <Label Content="{Binding ElementName=sensibilitySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="4" x:Name="SensibilityLabel" HorizontalContentAlignment="Center" ContentStringFormat="{}{0:0.##}"/>
                 <Label Grid.Column="1" Grid.Row="0"/>
             </Grid>

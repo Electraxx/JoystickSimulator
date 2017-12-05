@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,7 +70,10 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\SimulatorController.cs" />
+    <Compile Include="Errors\AlreadyRecordingException.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />
+    <Compile Include="Models\ActionRecorder.cs" />
+    <Compile Include="Models\AxisState.cs" />
     <Compile Include="Models\DAC.cs" />
     <Compile Include="Models\InputInterpreter.cs" />
     <Compile Include="Models\Simulator.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Models\Instruction.cs" />
     <Compile Include="Models\MotionCalculation.cs" />
     <Compile Include="Helpers\PointListHelper.cs" />
+    <Compile Include="Packets\RecordButtonPressedEventArgs.cs" />
     <Compile Include="Packets\SliderChangedEventArgs.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Viewer.xaml.cs">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using JoystickSimulator.Models;
 using JoystickSimulator.Packets;
 using SharpDX.DirectInput;
 
@@ -54,7 +55,7 @@ namespace JoystickSimulator.Controllers
         }
 
         public Dictionary<JoystickOffset, double> InputValues { get; private set; }
-        public Dictionary<JoystickOffset, int> AxisValues { get; private set; }
+        public AxisState AxisState { get; private set; }
 
         public EventHandler InputDataStored { get; set; }
 
@@ -66,15 +67,9 @@ namespace JoystickSimulator.Controllers
         public JoystickController()
         {
             ConnectedControllers = new ObservableCollection<Joystick>();
-            connectedControllers = new ObservableCollection<Joystick>();
-            InputValues = new Dictionary<JoystickOffset, double>();
-            AxisValues = new Dictionary<JoystickOffset, int> {
-                {JoystickOffset.X, 65535/2},
-                {JoystickOffset.Y, 65535/2},
-                {JoystickOffset.Z, 65535/2},
-                {JoystickOffset.Sliders0, 65535/2}
-            };
             di = new DirectInput();
+            InputValues = new Dictionary<JoystickOffset, double>();
+            AxisState = new AxisState();
         }
 
         /// <summary>
@@ -108,11 +103,11 @@ namespace JoystickSimulator.Controllers
                 }
                 else //Axis
                 {
-                    AxisValues[action.Offset] = action.Value;
+                    AxisState.Set(action);
                 }
+                Console.WriteLine(action);
             }
             //Les données ont été analysées, on fire l'event du MainWindow
-
             InputDataStored(sender, new InputPacketEventArgs());
         }
     }

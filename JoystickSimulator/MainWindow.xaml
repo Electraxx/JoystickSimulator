@@ -14,7 +14,7 @@
                 <usersControls:JoystickChooser x:Name="JoystickChooserControl" />
             </Grid>
         </TabItem>
-        <TabItem Header="Viewer" x:Name="visualizerTab">
+        <TabItem Header="Viewer" x:Name="visualizerTab" PreviewKeyDown="visualizerTab_PreviewKeyDown">
             <Grid>
                 <usersControls:Viewer x:Name="ViewerControl" />
             </Grid>
