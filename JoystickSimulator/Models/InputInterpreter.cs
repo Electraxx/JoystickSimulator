@@ -14,12 +14,13 @@ namespace JoystickSimulator.Models
     {
         public InputInterpreter() { }
 
-        public InputAction GetAction(Dictionary<JoystickOffset, double> inputs) {
+        public InputAction GetAction(Dictionary<JoystickOffset, double> inputs)
+        {
             if (inputs.Count == 0) //Pas de boutons pressés --> On retourne l'action par défaut
                 return ActionList.GetActionByName("MoveNeutralPoint");
 
             //On trouve la bonne action (normalement il n'en retournera qu'une)
-            IEnumerable<InputAction> results = ActionList.List.Where(action => 
+            IEnumerable<InputAction> results = ActionList.List.Where(action =>
                 new HashSet<JoystickOffset>(inputs.Keys.ToList()).SetEquals(
                     new HashSet<JoystickOffset>(action.ButtonNeeded)) &&
                 inputs.Values.ToList().Min() >= action.TimeNeeded);
@@ -37,9 +38,10 @@ namespace JoystickSimulator.Models
 
         public InputAction(double timeNeeded, string name, params JoystickOffset[] buttonsNeeded)
         {
+            //On regarde si c'est null à cause de la désérialisation
+            ButtonNeeded = buttonsNeeded != null ? buttonsNeeded.ToList() : new List<JoystickOffset>();
             TimeNeeded = timeNeeded;
             Name = name;
-            ButtonNeeded = buttonsNeeded.ToList();
         }
 
         public override string ToString() => Name;

@@ -54,7 +54,7 @@ namespace JoystickSimulator.Controllers
             private set => connectedControllers = value;
         }
 
-        public Dictionary<JoystickOffset, double> InputValues { get; private set; }
+        public Dictionary<JoystickOffset, double> InputValues { get; private set; } //TODO remplacer par type
         public AxisState AxisState { get; private set; }
 
         public EventHandler InputDataStored { get; set; }
@@ -65,7 +65,7 @@ namespace JoystickSimulator.Controllers
         #endregion
 
         public JoystickController()
-        {
+        {          
             ConnectedControllers = new ObservableCollection<Joystick>();
             di = new DirectInput();
             InputValues = new Dictionary<JoystickOffset, double>();

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 using JoystickSimulator.Helpers;
 using JoystickSimulator.Models;
+using JoystickSimulator.Packets;
+using Newtonsoft.Json;
 using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Controllers
@@ -26,6 +31,8 @@ namespace JoystickSimulator.Controllers
         private InputAction lastAction;
         private AxisState lastAxisInput;
         public List<double> LastSize { get; private set; }
+
+        public EventHandler MoveViewerHandler;
 
         public SimulatorController(ConfigManager cm, int defaultSensibility)
         {
@@ -81,10 +88,43 @@ namespace JoystickSimulator.Controllers
             OutputVoltage(sizeV);
         }
 
-        private void OutputVoltage(List<double> volts) //TODO SLIDEEEER
+        private void OutputVoltage(List<double> volts)
         {
             if (volts.Count == 6)
                 DAC.OutputVoltage(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList());
+        }
+
+        public void InputFromJson(string json) {
+            ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
+            DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 33);
+            timer.Tick += (sender, e) =>
+            {
+                foreach (InputPair pair in acSequence) {
+                    MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2));
+                    Do(pair.Item1, pair.Item2);
+                    //yield return;
+                }
+            };
+            timer.Start();//Yield + timer = prefect
+            
+            //Thread jsonInput = new Thread(() => { //Thread ici ou dans mainwindow ?
+            //    ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
+            //Stopwatch sw = new Stopwatch();
+
+            //foreach (InputPair pair in acSequence)
+            //{
+            //    sw.Start();
+            //    Dispatcher.CurrentDispatcher.Invoke(() => { MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2)); }, DispatcherPriority.ContextIdle);
+            //    Do(pair.Item1,pair.Item2);
+            //    sw.Stop();
+            //    Thread.Sleep(33-(int)sw.ElapsedMilliseconds);
+            //    sw = new Stopwatch();
+            //    //yield return 
+            //}
+            //});
+
+            //jsonInput.Start();// Start a new thread
         }
     }
 }

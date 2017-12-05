@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JoystickSimulator.Errors;
@@ -23,19 +24,24 @@ namespace JoystickSimulator.Models
         public void Record(InputAction action, AxisState axisState)
         {
             if (IsRecording)
+            {
                 ActionList.Add(new InputPair(action, axisState));
+                //Console.WriteLine("Recorded: \t X : " + axisState.X+"\n\tY : "+ axisState.Y+"\n\t Z : "+ axisState.Z);
+            }
+
         }
 
         /// <summary>
-        /// Inverse l'état du recorder et renvoie l'état actuel
+        /// Inverse l'état du recorder, renvoie l'état actuel et réinitialise la liste
         /// </summary>
         /// <returns></returns>
         public bool SwitchRecorderState()
         {
+            ActionList.Clear();
             return IsRecording = !IsRecording;
         }
 
-        public String GetJson()
+        public string GetJson()
         {
             if (!IsRecording)
                 return JsonConvert.SerializeObject(ActionList);
@@ -54,6 +60,6 @@ namespace JoystickSimulator.Models
 
     internal class InputPair : Tuple<InputAction, AxisState>
     {
-        public InputPair(InputAction item1, AxisState item2) : base(item1, item2) { }
+        public InputPair(InputAction item1, AxisState item2) : base(item1, item2) {}
     }
 }

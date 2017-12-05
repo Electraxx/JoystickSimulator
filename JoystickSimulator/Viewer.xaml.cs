@@ -40,6 +40,7 @@ namespace JoystickSimulator
         private bool enabled;
 
         public EventHandler SliderValueChanged { get; set; }
+        public EventHandler FileButtonClicked { get; set; }
 
         public Viewer()
         {
@@ -241,6 +242,11 @@ namespace JoystickSimulator
         private void sensibilitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SliderValueChanged?.Invoke(sender, new SliderChangedEventArgs(((Slider)sender).Value));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FileButtonClicked(sender, new FileButtonClickedEventArgs());
         }
     }
 }

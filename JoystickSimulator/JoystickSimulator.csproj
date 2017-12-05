@@ -78,6 +78,7 @@
     <Compile Include="Models\InputInterpreter.cs" />
     <Compile Include="Errors\NothingRecordedException.cs" />
     <Compile Include="Models\Simulator.cs" />
+    <Compile Include="Packets\FileButtonClickedEventArgs.cs" />
     <Compile Include="Packets\InputPacketEventArgs.cs" />
     <Compile Include="InputReceiver.cs" />
     <Compile Include="Controllers\JoystickController.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Models\Instruction.cs" />
     <Compile Include="Models\MotionCalculation.cs" />
     <Compile Include="Helpers\PointListHelper.cs" />
+    <Compile Include="Packets\MoveViewerEventArgs.cs" />
     <Compile Include="Packets\RecordButtonPressedEventArgs.cs" />
     <Compile Include="Packets\SliderChangedEventArgs.cs" />
     <Compile Include="Properties\Annotations.cs" />

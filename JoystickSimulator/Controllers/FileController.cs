@@ -34,7 +34,7 @@ namespace JoystickSimulator.Controllers
 
         public void Record(InputAction action, AxisState state)
         {
-            AR.Record(action, state);
+            AR.Record(action, (AxisState)state.Clone());
         }
 
         public bool SwitchRecorderState() {
@@ -57,6 +57,10 @@ namespace JoystickSimulator.Controllers
 
         public bool GetRecorderState() {
             return AR.IsRecording;
+        }
+
+        public string GetContent(string path) {
+            return File.ReadAllText(path);
         }
     }
 }

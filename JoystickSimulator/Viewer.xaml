@@ -24,6 +24,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
                 <Label Content="Point de rotation"/>
@@ -37,6 +38,7 @@
                 <Slider Grid.Row="4" VerticalAlignment="Center" x:Name="sensibilitySlider" Maximum="80" Minimum="10" Value="45" LargeChange="10" SmallChange="1" ValueChanged="sensibilitySlider_ValueChanged"/>
                 <Label Content="{Binding ElementName=sensibilitySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="4" x:Name="SensibilityLabel" HorizontalContentAlignment="Center" ContentStringFormat="{}{0:0.##}"/>
                 <Label Grid.Column="1" Grid.Row="0"/>
+                <Button Content="Choose file" Grid.Row="5" Click="Button_Click" />
             </Grid>
         </Grid>
         <Grid Grid.Column="1">

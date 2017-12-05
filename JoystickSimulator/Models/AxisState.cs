@@ -7,7 +7,7 @@ using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Models
 {
-    public class AxisState
+    public class AxisState: ICloneable
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -21,6 +21,18 @@ namespace JoystickSimulator.Models
             Z = 65535 / 2;
             H = 65535 / 2;
         }
+
+        ////private AxisState(int x, int y, int z, int h)
+        //{
+        //    X = x;
+        //    Y = y;
+        //    Z = z;
+        //    H = h;
+        //}
+
+        //public AxisState Copy() {
+        //    return new AxisState(X,Y,Z,H);
+        //}
 
         public void Set(JoystickUpdate button)
         {
@@ -39,6 +51,10 @@ namespace JoystickSimulator.Models
                     H = button.Value;
                     break;
             }
+        }
+
+        public object Clone() {
+            return MemberwiseClone();
         }
     }
 }

@@ -45,6 +45,7 @@ namespace JoystickSimulator
             JoystickChooserControl.RefreshButttonPressed += new EventHandler(RefreshButtonPressedHandler);
             joyController.InputDataStored += new EventHandler(InputPacketSentHandler);
             ViewerControl.SliderValueChanged += new EventHandler(SliderValueChangedHandler);
+            ViewerControl.FileButtonClicked += new EventHandler(FileButtonClickedHandler);
 
             //Binding de la view à la liste de joysticks
             JoystickChooserControl.ControlerListView.ItemsSource = joyController.ConnectedControllers;
@@ -53,6 +54,13 @@ namespace JoystickSimulator
             inputInterpreter = new InputInterpreter();
 
             visualizerTab.IsEnabled = false;
+
+            //List<Tuple<int,string>> test = new List<Tuple<int, string>>();
+            //test.Add(new Tuple<int, string>());
+        }
+
+        private void MoveViewerHandler(object sender, EventArgs e) {
+            ViewerControl.Do(((MoveViewerEventArgs)e).InputAction, ((MoveViewerEventArgs)e).AxisState);
         }
 
         /// <summary>
@@ -72,6 +80,8 @@ namespace JoystickSimulator
 
             visualizerTab.IsEnabled = true;
             tabControler.SelectedValue = visualizerTab;
+
+            simController.MoveViewerHandler += new EventHandler(MoveViewerHandler);
         }
 
         /// <summary>
@@ -84,14 +94,14 @@ namespace JoystickSimulator
             joyController.RefreshJoyStickList();
         }
 
-        private void InputPacketSentHandler(object sender, EventArgs e)
+        private void InputPacketSentHandler(object sender, EventArgs e) //TODO Demander expl. prof
         {
             InputAction action = inputInterpreter.GetAction(joyController.InputValues);
 
             simController.Do(action, joyController.AxisState);
             ViewerControl.UpdateTextblocks(simController.LastSize);
             ViewerControl.Do(action, joyController.AxisState);
-
+            
             fileController.Record(action, joyController.AxisState);
         }
 
@@ -99,7 +109,17 @@ namespace JoystickSimulator
         {
             simController.Sensibility = ((SliderChangedEventArgs)e).Value;
             Console.WriteLine(simController.Sensibility);
+        }
 
+        private void FileButtonClickedHandler(object sender, EventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.DefaultExt = ".json";
+            op.Filter = "Json File (*.json)|*.json";
+            op.Title = "Save as";
+            if (op.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                simController.InputFromJson(fileController.GetContent(op.FileName));
+            }
         }
 
         private void visualizerTab_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -113,10 +133,11 @@ namespace JoystickSimulator
                 case Key.F6: //Filecontroller ?
                     if (fileController.IsAbleToSave())
                     {
-                        SaveFileDialog sd = new SaveFileDialog();
-                        sd.Filter = "Json File (*.json)|*.json";
-                        sd.FileName = "Recorded";
-                        sd.Title = "Save As";
+                        SaveFileDialog sd = new SaveFileDialog {
+                            Filter = "Json File (*.json)|*.json",
+                            FileName = "Recorded",
+                            Title = "Save As"
+                        };
                         if (sd.ShowDialog() == true)
                             fileController.SaveJson(sd.FileName);
                     }
