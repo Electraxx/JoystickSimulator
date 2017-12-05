@@ -50,5 +50,13 @@ namespace JoystickSimulator.Controllers
             File.WriteAllText(filename, AR.GetJson());
             return AR.IsRecording;
         }
+
+        public bool IsAbleToSave() {
+            return (AR.ActionList.Count > 0 && !AR.IsRecording);
+        }
+
+        public bool GetRecorderState() {
+            return AR.IsRecording;
+        }
     }
 }

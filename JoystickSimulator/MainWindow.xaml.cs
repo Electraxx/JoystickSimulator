@@ -108,14 +108,19 @@ namespace JoystickSimulator
             {
                 case Key.F9: //Y'a moyen de faire plus propre (manager ou autre...)
                     ViewerControl.RecorderStateLabel.Content = fileController.SwitchRecorderState() ? "On" : "Off";
+                    ViewerControl.IsAbleToSaveLabel.Content = fileController.GetRecorderState() ? "You cannot save" : "You can save";
                     break;
-                case Key.F6:
-                    SaveFileDialog sd = new SaveFileDialog();
-                    sd.Filter = "Json File (*.json)|*.json";
-                    sd.FileName = "Recorded";
-                    sd.Title = "Save As";
-                    if (sd.ShowDialog() == true)
-                        fileController.SaveJson(sd.FileName);
+                case Key.F6: //Filecontroller ?
+                    if (fileController.IsAbleToSave())
+                    {
+                        SaveFileDialog sd = new SaveFileDialog();
+                        sd.Filter = "Json File (*.json)|*.json";
+                        sd.FileName = "Recorded";
+                        sd.Title = "Save As";
+                        if (sd.ShowDialog() == true)
+                            fileController.SaveJson(sd.FileName);
+                    }
+
                     break;
 
             }

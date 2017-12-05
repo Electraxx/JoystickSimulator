@@ -76,6 +76,7 @@
     <Compile Include="Models\AxisState.cs" />
     <Compile Include="Models\DAC.cs" />
     <Compile Include="Models\InputInterpreter.cs" />
+    <Compile Include="Errors\NothingRecordedException.cs" />
     <Compile Include="Models\Simulator.cs" />
     <Compile Include="Packets\InputPacketEventArgs.cs" />
     <Compile Include="InputReceiver.cs" />

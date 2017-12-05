@@ -29,7 +29,7 @@
                 <Label Content="Point de rotation"/>
                 <Label Content="Recorder (F9)" Grid.Row="1"/>
                 <Label Content="Save (F6)" Grid.Row="2"/>
-                <Label Content="Impossible" Grid.Row="2" Grid.Column="2"/>
+                <Label Content="null" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Name="IsAbleToSaveLabel"/>
                 <Label Content="off" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Name="RecorderStateLabel"/>
 
                 <Label Grid.Column="2" x:Name="RotationPointLabel"  ContentStringFormat=""/>

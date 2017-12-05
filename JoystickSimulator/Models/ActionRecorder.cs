@@ -22,7 +22,7 @@ namespace JoystickSimulator.Models
 
         public void Record(InputAction action, AxisState axisState)
         {
-            if(IsRecording)
+            if (IsRecording)
                 ActionList.Add(new InputPair(action, axisState));
         }
 
@@ -30,13 +30,18 @@ namespace JoystickSimulator.Models
         /// Inverse l'état du recorder et renvoie l'état actuel
         /// </summary>
         /// <returns></returns>
-        public bool SwitchRecorderState() {
+        public bool SwitchRecorderState()
+        {
             return IsRecording = !IsRecording;
         }
 
-        public String GetJson() {
-            if(!IsRecording)
+        public String GetJson()
+        {
+            if (!IsRecording)
                 return JsonConvert.SerializeObject(ActionList);
+
+            if (ActionList.Count > 0)
+                throw new NothingRecordedException();
 
             throw new AlreadyRecordingException();
         }

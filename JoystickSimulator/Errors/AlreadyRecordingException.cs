@@ -8,6 +8,6 @@ namespace JoystickSimulator.Errors
 {
     internal class AlreadyRecordingException:Exception
     {
-        public AlreadyRecordingException():base("The recorder isn't On") {}
+        public AlreadyRecordingException():base("You can't record if the recorder isn't off") {}
     }
 }
