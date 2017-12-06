@@ -73,7 +73,7 @@ namespace JoystickSimulator.Controllers
         }
 
         /// <summary>
-        /// Va mettre à jour la liste des joystick connectés
+        /// Va mettre à jour la liste des joystick connectés.
         /// </summary>
         public void RefreshJoyStickList()
         {
