@@ -30,7 +30,7 @@ namespace JoystickSimulator.Controllers
                 currentJoystick.Acquire();
 
                 DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
-                timer.Interval = new TimeSpan(0, 0, 0, 0, 33);
+                timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
                 timer.Tick += AcquireInput;
                 timer.Start();
             }
@@ -105,7 +105,7 @@ namespace JoystickSimulator.Controllers
                 {
                     AxisState.Set(action);
                 }
-                Console.WriteLine(action);
+                //Console.WriteLine(action);
             }
             //Les données ont été analysées, on fire l'event du MainWindow
             InputDataStored(sender, new InputPacketEventArgs());

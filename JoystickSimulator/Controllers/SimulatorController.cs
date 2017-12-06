@@ -94,37 +94,52 @@ namespace JoystickSimulator.Controllers
                 DAC.OutputVoltage(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList());
         }
 
-        public void InputFromJson(string json) {
+        public async void InputFromJson(string json)
+        {
             ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
-            DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 33);
-            timer.Tick += (sender, e) =>
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            foreach (InputPair pair in acSequence)
             {
-                foreach (InputPair pair in acSequence) {
-                    MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2));
-                    Do(pair.Item1, pair.Item2);
-                    //yield return;
-                }
-            };
-            timer.Start();//Yield + timer = prefect
-            
-            //Thread jsonInput = new Thread(() => { //Thread ici ou dans mainwindow ?
-            //    ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
-            //Stopwatch sw = new Stopwatch();
-
-            //foreach (InputPair pair in acSequence)
-            //{
-            //    sw.Start();
-            //    Dispatcher.CurrentDispatcher.Invoke(() => { MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2)); }, DispatcherPriority.ContextIdle);
-            //    Do(pair.Item1,pair.Item2);
-            //    sw.Stop();
-            //    Thread.Sleep(33-(int)sw.ElapsedMilliseconds);
-            //    sw = new Stopwatch();
-            //    //yield return 
-            //}
-            //});
-
-            //jsonInput.Start();// Start a new thread
+                //Dispatcher.CurrentDispatcher.Invoke(() => { MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2)); }, DispatcherPriority.ContextIdle);
+                MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2));
+                Do(pair.Item1, pair.Item2);
+                sw.Stop();
+                //Console.WriteLine("Action : "+ pair.Item1.Name + " Temps (ms) : "+ (int)sw.ElapsedMilliseconds);
+                int milisec = (int)sw.ElapsedMilliseconds;
+                sw.Restart();
+                await Task.Delay(50 - ((milisec > 50) ? 0 : milisec));
+            }
         }
+
+        //DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
+        //timer.Interval = new TimeSpan(0, 0, 0, 0, 33);
+        //timer.Tick += (sender, e) =>
+        //{
+        //    foreach (InputPair pair in acSequence) { //ici
+        //        MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2));
+        //        Do(pair.Item1, pair.Item2);
+        //        //yield return;
+        //    }
+        //};
+        //timer.Start();//Yield + timer = prefect
+
+        //Thread jsonInput = new Thread(() => { //Thread ici ou dans mainwindow ?
+        //    ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
+        //Stopwatch sw = new Stopwatch();
+
+        //foreach (InputPair pair in acSequence)
+        //{
+        //    sw.Start();
+        //    Dispatcher.CurrentDispatcher.Invoke(() => { MoveViewerHandler(this, new MoveViewerEventArgs(pair.Item1, pair.Item2)); }, DispatcherPriority.ContextIdle);
+        //    Do(pair.Item1,pair.Item2);
+        //    sw.Stop();
+        //    Thread.Sleep(33-(int)sw.ElapsedMilliseconds);
+        //    sw = new Stopwatch();
+        //    //yield return 
+        //}
+        //});
+
+        //jsonInput.Start();// Start a new thread
     }
 }

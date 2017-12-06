@@ -37,7 +37,8 @@ namespace JoystickSimulator.Models
         /// <returns></returns>
         public bool SwitchRecorderState()
         {
-            ActionList.Clear();
+            if(!IsRecording)
+                ActionList.Clear();
             return IsRecording = !IsRecording;
         }
 
