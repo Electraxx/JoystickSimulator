@@ -42,15 +42,19 @@ namespace JoystickSimulator.Controllers
         }
 
         /// <summary>
-        /// Save le json et retourne l'état du recorder
+        /// retourne le json et retourne l'état du recorder
         /// </summary>
         /// <returns></returns>
-        public bool SaveJson(string filename) {
+        public bool GetJson(string filename) {
             //Console.WriteLine(AR.GetJson());
             File.WriteAllText(filename, AR.GetJson());
             return AR.IsRecording;
         }
 
+        /// <summary>
+        /// Détérmine si il est possible de sauvegarder le fichier
+        /// </summary>
+        /// <returns></returns>
         public bool IsAbleToSave() {
             return (AR.ActionList.Count > 0 && !AR.IsRecording);
         }
@@ -59,6 +63,11 @@ namespace JoystickSimulator.Controllers
             return AR.IsRecording;
         }
 
+        /// <summary>
+        /// Permet d'obtenir le coutenu d'un fichier à partir de son chemin
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public string GetContent(string path) {
             return File.ReadAllText(path);
         }

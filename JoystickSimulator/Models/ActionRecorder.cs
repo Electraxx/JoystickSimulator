@@ -10,8 +10,14 @@ using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Models
 {
+    /// <summary>
+    /// Permet d'enregistrer les actions faites sur le simulateur
+    /// </summary>
     internal class ActionRecorder
     {
+        /// <summary>
+        /// Liste contenant les actions/positions du joystick
+        /// </summary>
         public ActionSequence ActionList { get; private set; }
         public bool IsRecording { get; set; }
 

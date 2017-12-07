@@ -139,7 +139,7 @@ namespace JoystickSimulator
                             Title = "Save As"
                         };
                         if (sd.ShowDialog() == true)
-                            fileController.SaveJson(sd.FileName);
+                            fileController.GetJson(sd.FileName);
                     }
 
                     break;

@@ -18,9 +18,12 @@ using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Controllers
 {
+    /// <summary>
+    /// Contrôle les interactions avec le simulateur
+    /// </summary>
     class SimulatorController
     {
-
+        //TODO, mettre 2,3 trucs dans le math controlleurs
         private MotionCalculation motionCalculation;
         private DAC dac;
         public Simulator Simulator { get; set; }
@@ -48,6 +51,11 @@ namespace JoystickSimulator.Controllers
             DAC.InitDac();
         }
 
+        /// <summary>
+        /// Methode d'interaction principale. Elle va détérminer ce qu'il faudra faire
+        /// </summary>
+        /// <param name="action">Action à faire</param>
+        /// <param name="axisState">Position du joystick à intrepréter</param>
         public void Do(InputAction action, AxisState axisState)
         {
             switch (action.Name)
@@ -72,6 +80,10 @@ namespace JoystickSimulator.Controllers
             lastAction = action;
         }
 
+        /// <summary>
+        ///Permet de bouger le simulateur 
+        /// </summary>
+        /// <param name="axisState">Position actuelle du joystick</param>
         private void Move(AxisState axisState)
         {
 
@@ -88,12 +100,20 @@ namespace JoystickSimulator.Controllers
             OutputVoltage(sizeV);
         }
 
+        /// <summary>
+        /// Va donner le voltage aux éléctrovannes
+        /// </summary>
+        /// <param name="volts">Liste des volts à distribuer</param>
         private void OutputVoltage(List<double> volts)
         {
             if (volts.Count == 6)
                 DAC.OutputVoltage(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList());
         }
 
+        /// <summary>
+        /// Permet de simuler l'input avec un fichier Json
+        /// </summary>
+        /// <param name="json">Fichier Json contenant les inputs</param>
         public async void InputFromJson(string json)
         {
             ActionSequence acSequence = JsonConvert.DeserializeObject<ActionSequence>(json);
@@ -111,7 +131,7 @@ namespace JoystickSimulator.Controllers
                 await Task.Delay(50 - ((milisec > 50) ? 0 : milisec));
             }
         }
-
+        #region oldversion
         //DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
         //timer.Interval = new TimeSpan(0, 0, 0, 0, 33);
         //timer.Tick += (sender, e) =>
@@ -141,5 +161,6 @@ namespace JoystickSimulator.Controllers
         //});
 
         //jsonInput.Start();// Start a new thread
+        #endregion
     }
 }

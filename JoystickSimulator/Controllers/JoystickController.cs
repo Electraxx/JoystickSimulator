@@ -8,6 +8,9 @@ using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Controllers
 {
+    /// <summary>
+    /// Classe contrôlant les interactions avec le joystick
+    /// </summary>
     internal class JoystickController
     {
         #region variables
@@ -40,9 +43,9 @@ namespace JoystickSimulator.Controllers
         /// Classe permettant (entre autre) de trouver les joysticks
         /// </summary>
         private DirectInput di;
-
+        
         /// <summary>
-        /// Représente les joysticks connectés
+        /// Représente les joysticks connectés, elle est bindé sur sa représentation graphique
         /// </summary>
         public ObservableCollection<Joystick> ConnectedControllers
         {
@@ -53,15 +56,23 @@ namespace JoystickSimulator.Controllers
             }
             private set => connectedControllers = value;
         }
+        private ObservableCollection<Joystick> connectedControllers;
 
+        /// <summary>
+        /// Représente les boutons pressés, avec le timestamp originel
+        /// </summary>
         public Dictionary<JoystickOffset, double> InputValues { get; private set; } //TODO remplacer par type
         public AxisState AxisState { get; private set; }
 
+        /// <summary>
+        /// Evenement qui va fire quand un poll du joystick aura été effectué
+        /// </summary>
         public EventHandler InputDataStored { get; set; }
 
+        /// <summary>
+        /// Représente les valeurs (en int) de la partie "XYZ" des inputs
+        /// </summary>
         private readonly List<JoystickOffset> xyzOffsetList = new List<JoystickOffset> { JoystickOffset.X, JoystickOffset.Y, JoystickOffset.Z, JoystickOffset.Sliders0 };
-
-        private ObservableCollection<Joystick> connectedControllers;
         #endregion
 
         public JoystickController()
@@ -86,6 +97,11 @@ namespace JoystickSimulator.Controllers
             }
         }
 
+        /// <summary>
+        /// Methode appellée réguliérement via un timer, elle va poller le joystick
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AcquireInput(object sender, EventArgs e)
         {
             //JoystickUpdate[] ControlerData = CurrentJoystick.GetBufferedData();

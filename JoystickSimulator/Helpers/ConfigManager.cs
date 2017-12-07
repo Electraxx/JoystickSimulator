@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace JoystickSimulator.Helpers
 {
+    /// <summary>
+    /// Va gérer la confuguration du simulateur
+    /// </summary>
     class ConfigManager
     {
         public List<Point3D> Support { get; set; }
