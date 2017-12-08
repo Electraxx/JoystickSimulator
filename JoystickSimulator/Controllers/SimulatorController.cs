@@ -96,8 +96,8 @@ namespace JoystickSimulator.Controllers
             List<double> sizeV = motionCalculation.GetMuscleSize(MotionCalculation.Transform(
                 motionCalculation.Seat, motionCalculation.Oversampling(10, currentInstr, originalInstruction)));
 
-            LastSize = sizeV;
             OutputVoltage(sizeV);
+            LastSize = sizeV;
         }
 
         /// <summary>
