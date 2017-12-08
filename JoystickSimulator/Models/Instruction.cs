@@ -4,6 +4,9 @@ using System.Windows.Media.Media3D;
 
 namespace JoystickSimulator.Models
 {
+    /// <summary>
+    /// Représente une série d'instruction pour les calculs du simulateur
+    /// </summary>
     public class Instruction
     {
         public double Roll { set; get; }
@@ -41,14 +44,24 @@ namespace JoystickSimulator.Models
             Translation = new Vector3D(translationX, translationY, translationZ);
         }
 
-        public List<double> AddSample(List<double> sample)
-        {
-            return GetDoubleList().Zip(sample, (x, y) => x + y).ToList();
-        }
-
-        public List<double> GetDoubleList()
+        /// <summary>
+        /// Renvoie les variable de la classe dans une liste
+        /// </summary>
+        /// <returns>Une liste représantant l'objet</returns>
+        public List<double> GetPropertiesAsList()
         {
             return new List<double> { Roll, Pitch, Yaw, RotationPoint.X, RotationPoint.Y, RotationPoint.Z, Translation.X, Translation.Y, Translation.Z };
+        }
+
+        /// <summary>
+        /// Ajoute deux liste de valeurs ensemble.
+        /// Est utilisé dans l'oversampling.
+        /// </summary>
+        /// <param name="sample">Liste de valeur à ajouter</param>
+        /// <returns>L'addition des deux listes</returns>
+        public List<double> AddSample(List<double> sample)
+        {
+            return GetPropertiesAsList().Zip(sample, (x, y) => x + y).ToList();
         }
 
     }

@@ -120,7 +120,7 @@ namespace JoystickSimulator.Models
             double ratio = 0.5;
 
             List<double> muscles = GetMuscleSize(Transform(Seat, instructions.Yaw, instructions.Pitch, instructions.Roll, instructions.RotationPoint, instructions.Translation));
-            List<double> delta = new List<double>(instructions.GetDoubleList().Zip(previousInstructions.GetDoubleList(), (d1, d2) => d1 - d2).ToArray());
+            List<double> delta = new List<double>(instructions.GetPropertiesAsList().Zip(previousInstructions.GetPropertiesAsList(), (d1, d2) => d1 - d2).ToArray());
 
             double sampling = 0;
 

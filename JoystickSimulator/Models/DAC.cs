@@ -7,6 +7,9 @@ using System.Text;
 namespace JoystickSimulator.Models
 {
     //Objet ?
+    /// <summary>
+    /// Connexion avec le simulateur
+    /// </summary>
     class DAC
     {
         private enum RefID : uint

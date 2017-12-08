@@ -7,7 +7,10 @@ using SharpDX.DirectInput;
 
 namespace JoystickSimulator.Models
 {
-    public class AxisState: ICloneable
+    /// <summary>
+    /// Représente l'état du joystick
+    /// </summary>
+    public class AxisState : ICloneable
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -34,6 +37,10 @@ namespace JoystickSimulator.Models
         //    return new AxisState(X,Y,Z,H);
         //}
 
+        /// <summary>
+        /// Permet de changer l'état enregistrer
+        /// </summary>
+        /// <param name="button">Bouton pressé</param>
         public void Set(JoystickUpdate button)
         {
             switch (button.Offset)
@@ -53,7 +60,12 @@ namespace JoystickSimulator.Models
             }
         }
 
-        public object Clone() {
+        /// <summary>
+        /// Clone l'objet
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
             return MemberwiseClone();
         }
     }

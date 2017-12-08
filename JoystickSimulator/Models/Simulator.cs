@@ -10,10 +10,19 @@ using JoystickSimulator.Annotations;
 
 namespace JoystickSimulator.Models
 {
+    /// <summary>
+    /// Modèle représentant le simulateur
+    /// </summary>
     public class Simulator : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Liste des points du siège
+        /// </summary>
         public List<Point3D> Seat { get; set; }
 
+        /// <summary>
+        /// Point de rotation du siège
+        /// </summary>
         private Point3D rotationPoint;
 
         public Point3D RotationPoint {

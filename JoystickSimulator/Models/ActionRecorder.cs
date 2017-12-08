@@ -27,6 +27,11 @@ namespace JoystickSimulator.Models
             IsRecording = false;
         }
 
+        /// <summary>
+        /// Va enregistrer les actions et les états du joystick
+        /// </summary>
+        /// <param name="action">L'action à enregistrer</param>
+        /// <param name="axisState">L'état joystick à enregistrer</param>
         public void Record(InputAction action, AxisState axisState)
         {
             if (IsRecording)
@@ -38,7 +43,7 @@ namespace JoystickSimulator.Models
         }
 
         /// <summary>
-        /// Inverse l'état du recorder, renvoie l'état actuel et réinitialise la liste
+        /// Inverse l'état du recorder, renvoie l'état actuel et réinitialise la liste si il le faut
         /// </summary>
         /// <returns></returns>
         public bool SwitchRecorderState()
@@ -48,6 +53,10 @@ namespace JoystickSimulator.Models
             return IsRecording = !IsRecording;
         }
 
+        /// <summary>
+        /// Va retourner le json des Actions
+        /// </summary>
+        /// <returns></returns>
         public string GetJson()
         {
             if (!IsRecording)

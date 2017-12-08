@@ -7,7 +7,10 @@ using JoystickSimulator.Models;
 
 namespace JoystickSimulator.Packets
 {
-    class MoveViewerEventArgs:EventArgs
+    /// <summary>
+    /// Event utilisé pour remonter la hiérarchie afin de bouger la partie visuelle
+    /// </summary>
+    class MoveViewerEventArgs :EventArgs
     {
         public InputAction InputAction { get; set; }
         public AxisState AxisState { get; set; }
