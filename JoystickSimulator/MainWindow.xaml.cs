@@ -97,7 +97,7 @@ namespace JoystickSimulator
         private void InputPacketSentHandler(object sender, EventArgs e) //TODO Demander expl. prof
         {
             InputAction action = inputInterpreter.GetAction(joyController.InputValues);
-
+            Console.WriteLine(action.Name);
             simController.Do(action, joyController.AxisState);
             ViewerControl.UpdateTextblocks(simController.LastSize);
             ViewerControl.Do(action, joyController.AxisState);
@@ -113,10 +113,11 @@ namespace JoystickSimulator
 
         private void FileButtonClickedHandler(object sender, EventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.DefaultExt = ".json";
-            op.Filter = "Json File (*.json)|*.json";
-            op.Title = "Save as";
+            OpenFileDialog op = new OpenFileDialog {
+                DefaultExt = ".json",
+                Filter = "Json File (*.json)|*.json",
+                Title = "Save as"
+            };
             if (op.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 simController.InputFromJson(fileController.GetContent(op.FileName));
             }

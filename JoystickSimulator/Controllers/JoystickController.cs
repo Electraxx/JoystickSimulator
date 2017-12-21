@@ -33,7 +33,7 @@ namespace JoystickSimulator.Controllers
                 currentJoystick.Acquire();
 
                 DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
-                timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+                timer.Interval = new TimeSpan(0, 0, 0, 0, 33); //30 ou 50? async ?
                 timer.Tick += AcquireInput;
                 timer.Start();
             }
@@ -102,7 +102,7 @@ namespace JoystickSimulator.Controllers
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AcquireInput(object sender, EventArgs e)
+        public void AcquireInput(object sender, EventArgs e)
         {
             //JoystickUpdate[] ControlerData = CurrentJoystick.GetBufferedData();
 

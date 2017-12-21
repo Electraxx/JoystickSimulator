@@ -80,7 +80,6 @@
     <Compile Include="Models\Simulator.cs" />
     <Compile Include="Packets\FileButtonClickedEventArgs.cs" />
     <Compile Include="Packets\InputPacketEventArgs.cs" />
-    <Compile Include="InputReceiver.cs" />
     <Compile Include="Controllers\JoystickController.cs" />
     <Compile Include="Packets\JoystickEventArgs.cs" />
     <Compile Include="Controllers\MathController.cs" />

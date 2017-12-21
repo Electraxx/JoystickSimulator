@@ -104,13 +104,12 @@ namespace JoystickSimulator.Controllers
         /// Va donner le voltage aux éléctrovannes
         /// </summary>
         /// <param name="volts">Liste des volts à distribuer</param>
-        private void OutputVoltage(List<double> volts)
-        {
-            if (volts.Count == 6)
+        private void OutputVoltage(List<double> volts) {
+            if (volts.Count != 6)
                 DAC.OutputVoltage(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList());
         }
 
-        /// <summary>
+        /// <summary> 0xceff
         /// Permet de simuler l'input avec un fichier Json
         /// </summary>
         /// <param name="json">Fichier Json contenant les inputs</param>
@@ -128,7 +127,7 @@ namespace JoystickSimulator.Controllers
                 //Console.WriteLine("Action : "+ pair.Item1.Name + " Temps (ms) : "+ (int)sw.ElapsedMilliseconds);
                 int milisec = (int)sw.ElapsedMilliseconds;
                 sw.Restart();
-                await Task.Delay(50 - ((milisec > 50) ? 0 : milisec));
+                await Task.Delay(33 - ((milisec > 33) ? 0 : milisec)); //30? 50? async ?
             }
         }
         #region oldversion
