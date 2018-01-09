@@ -103,15 +103,15 @@ namespace JoystickSimulator.Controllers
         /// <summary>
         /// Va donner le voltage aux éléctrovannes
         /// </summary>
-        /// <param name="volts">Liste des volts à distribuer</param>
-        private void OutputVoltage(List<double> volts) {
-            //List<double> test = volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList();
+        /// <param name="size">Liste des size à distribuer</param>
+        private void OutputVoltage(List<double> size) {
+            //List<double> test = size.Select(i => i * (isOn ? 1.0 : 0.0)).ToList();
             //foreach (var t in test) {
             //    Console.WriteLine("output " + t);
             //}
             //Console.WriteLine();
-            if (volts.Count != 6)
-                DAC.OutputVoltage(motionCalculation.DistsToVolts(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList()));
+            if (size.Count == 6)
+                DAC.OutputVoltage(motionCalculation.DistsToVolts(size.Select(i => i * (isOn ? 1.0 : 0.0)).ToList()));
         }
 
         /// <summary>
