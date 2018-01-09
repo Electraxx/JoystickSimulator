@@ -97,7 +97,7 @@ namespace JoystickSimulator
         private void InputPacketSentHandler(object sender, EventArgs e) //TODO Demander expl. prof
         {
             InputAction action = inputInterpreter.GetAction(joyController.InputValues);
-            Console.WriteLine(action.Name);
+            //Console.WriteLine(action.Name); //writeline action
             simController.Do(action, joyController.AxisState);
             ViewerControl.UpdateTextblocks(simController.LastSize);
             ViewerControl.Do(action, joyController.AxisState);

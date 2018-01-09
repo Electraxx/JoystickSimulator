@@ -25,7 +25,7 @@ namespace JoystickSimulator.Controllers
     {
         //TODO, mettre 2,3 trucs dans le math controlleurs
         private MotionCalculation motionCalculation;
-        private DAC dac;
+        //private DAC dac;
         public Simulator Simulator { get; set; }
         private readonly Instruction originalInstruction;
         private bool isOn;
@@ -105,11 +105,16 @@ namespace JoystickSimulator.Controllers
         /// </summary>
         /// <param name="volts">Liste des volts à distribuer</param>
         private void OutputVoltage(List<double> volts) {
+            //List<double> test = volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList();
+            //foreach (var t in test) {
+            //    Console.WriteLine("output " + t);
+            //}
+            //Console.WriteLine();
             if (volts.Count != 6)
-                DAC.OutputVoltage(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList());
+                DAC.OutputVoltage(motionCalculation.DistsToVolts(volts.Select(i => i * (isOn ? 1.0 : 0.0)).ToList()));
         }
 
-        /// <summary> 0xceff
+        /// <summary>
         /// Permet de simuler l'input avec un fichier Json
         /// </summary>
         /// <param name="json">Fichier Json contenant les inputs</param>
