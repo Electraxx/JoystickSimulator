@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
@@ -80,14 +81,14 @@ namespace JoystickSimulator.Controllers
 
         public void OpenHelp()
         {
-            if (!File.Exists("help.pdf"))
+            if (!File.Exists("files/help.pdf"))
                 ExtractHelp();
 
-            ShowPdf("help.pdf");
+            ShowPdf("files/help.pdf");
         }
 
         private void ShowPdf(string helpPdf) {
-            Process.Start("help.pdf");
+            Process.Start(AssemblyDirectory()+"/files/help.pdf");
         }
 
         private void ExtractHelp()
@@ -96,14 +97,18 @@ namespace JoystickSimulator.Controllers
             MemoryStream ms = new MemoryStream(pdf);
 
             //Create PDF File From Binary of resources folders help.pdf
-
-            FileStream f = new FileStream("help.pdf", FileMode.OpenOrCreate);
+            Directory.CreateDirectory("files");
+            FileStream f = new FileStream("files/help.pdf", FileMode.CreateNew);
 
             //Writes Bytes into Our pdf
 
             ms.WriteTo(f);
             f.Close();
             ms.Close();
+        }
+
+        private string AssemblyDirectory() {
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
     }
 }
