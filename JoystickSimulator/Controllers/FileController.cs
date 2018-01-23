@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -37,7 +38,8 @@ namespace JoystickSimulator.Controllers
             AR.Record(action, (AxisState)state.Clone());
         }
 
-        public bool SwitchRecorderState() {
+        public bool SwitchRecorderState()
+        {
             return AR.SwitchRecorderState();
         }
 
@@ -45,7 +47,8 @@ namespace JoystickSimulator.Controllers
         /// retourne le json et retourne l'état du recorder
         /// </summary>
         /// <returns></returns>
-        public bool GetJson(string filename) {
+        public bool GetJson(string filename)
+        {
             //Console.WriteLine(AR.GetJson());
             File.WriteAllText(filename, AR.GetJson());
             return AR.IsRecording;
@@ -55,11 +58,13 @@ namespace JoystickSimulator.Controllers
         /// Détérmine si il est possible de sauvegarder le fichier
         /// </summary>
         /// <returns></returns>
-        public bool IsAbleToSave() {
+        public bool IsAbleToSave()
+        {
             return (AR.ActionList.Count > 0 && !AR.IsRecording);
         }
 
-        public bool GetRecorderState() {
+        public bool GetRecorderState()
+        {
             return AR.IsRecording;
         }
 
@@ -68,8 +73,37 @@ namespace JoystickSimulator.Controllers
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public string GetContent(string path) {
+        public string GetContent(string path)
+        {
             return File.ReadAllText(path);
+        }
+
+        public void OpenHelp()
+        {
+            if (!File.Exists("help.pdf"))
+                ExtractHelp();
+
+            ShowPdf("help.pdf");
+        }
+
+        private void ShowPdf(string helpPdf) {
+            Process.Start("help.pdf");
+        }
+
+        private void ExtractHelp()
+        {
+            byte[] pdf = Properties.Resources.Aide_JoystickSimulator;
+            MemoryStream ms = new MemoryStream(pdf);
+
+            //Create PDF File From Binary of resources folders help.pdf
+
+            FileStream f = new FileStream("help.pdf", FileMode.OpenOrCreate);
+
+            //Writes Bytes into Our pdf
+
+            ms.WriteTo(f);
+            f.Close();
+            ms.Close();
         }
     }
 }

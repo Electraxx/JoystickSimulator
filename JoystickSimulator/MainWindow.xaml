@@ -8,16 +8,28 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Height="650" Width="800" ResizeMode="NoResize">
-    <TabControl x:Name="tabControler">
-        <TabItem Header="Controllers" x:Name="ControllerSelectionTab">
-            <Grid>
-                <usersControls:JoystickChooser x:Name="JoystickChooserControl" />
-            </Grid>
-        </TabItem>
-        <TabItem Header="Viewer" x:Name="visualizerTab" PreviewKeyDown="visualizerTab_PreviewKeyDown">
-            <Grid>
-                <usersControls:Viewer x:Name="ViewerControl" />
-            </Grid>
-        </TabItem>
-    </TabControl>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Aide" Click="MenuItem_OnClick">
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <TabControl x:Name="tabControler" Grid.Row="1">
+            <TabItem Header="Controllers" x:Name="ControllerSelectionTab">
+                <Grid>
+                    <usersControls:JoystickChooser x:Name="JoystickChooserControl" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Viewer" x:Name="visualizerTab" PreviewKeyDown="visualizerTab_PreviewKeyDown">
+                <Grid>
+                    <usersControls:Viewer x:Name="ViewerControl" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

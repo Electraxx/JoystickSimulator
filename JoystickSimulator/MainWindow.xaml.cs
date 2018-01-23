@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -146,6 +148,10 @@ namespace JoystickSimulator
                     break;
 
             }
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e) {
+            fileController.OpenHelp();
         }
     }
 }
