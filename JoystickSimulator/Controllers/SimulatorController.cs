@@ -72,10 +72,13 @@ namespace JoystickSimulator.Controllers
                     Simulator.RotationPoint = new Point3D(
                         (axisState.X / 65535.0) * motionCalculation.RotationPoint.X,
                         (axisState.Y / 65535.0) * motionCalculation.RotationPoint.Y,
-                        (axisState.H / 65535.0) * motionCalculation.RotationPoint.Z
+                        (axisState.H / 1100) * motionCalculation.RotationPoint.Z //TODO find max usable value
                     );
                     Move(lastAxisInput);
+                    Console.WriteLine("Height : " + axisState.H / 1100);
                     break;
+
+                //INFO 76x91 
             }
             lastAction = action;
         }
@@ -104,12 +107,9 @@ namespace JoystickSimulator.Controllers
         /// Va donner le voltage aux éléctrovannes
         /// </summary>
         /// <param name="size">Liste des size à distribuer</param>
-        private void OutputVoltage(List<double> size) {
-            //List<double> test = size.Select(i => i * (isOn ? 1.0 : 0.0)).ToList();
-            //foreach (var t in test) {
-            //    Console.WriteLine("output " + t);
-            //}
-            //Console.WriteLine();
+        private void OutputVoltage(List<double> size)
+        {
+
             if (size.Count == 6)
                 DAC.OutputVoltage(motionCalculation.DistsToVolts(size.Select(i => i * (isOn ? 1.0 : 0.0)).ToList()));
         }

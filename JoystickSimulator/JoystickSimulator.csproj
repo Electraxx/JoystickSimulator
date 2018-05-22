@@ -69,6 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\SimulatorController.cs" />
     <Compile Include="Errors\AlreadyRecordingException.cs" />
     <Compile Include="Helpers\ConfigManager.cs" />

@@ -25,22 +25,6 @@ namespace JoystickSimulator.Models
             H = 65535 / 2;
         }
 
-        ////private AxisState(int x, int y, int z, int h)
-        //{
-        //    X = x;
-        //    Y = y;
-        //    Z = z;
-        //    H = h;
-        //}
-
-        //public AxisState Copy() {
-        //    return new AxisState(X,Y,Z,H);
-        //}
-
-        /// <summary>
-        /// Permet de changer l'état enregistrer
-        /// </summary>
-        /// <param name="button">Bouton pressé</param>
         public void Set(JoystickUpdate button)
         {
             switch (button.Offset)

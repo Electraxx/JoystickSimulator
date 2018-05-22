@@ -23,8 +23,6 @@ namespace JoystickSimulator.Controllers
             get => currentJoystick;
             set
             {
-                if (value == null) return;
-
                 currentJoystick = value;
 
                 if (currentJoystick.Properties.BufferSize != 128)
@@ -32,7 +30,6 @@ namespace JoystickSimulator.Controllers
 
                 currentJoystick.Acquire();
 
-                DispatcherTimer timer = new DispatcherTimer(); //Faisable en une ligne ?
                 timer.Interval = new TimeSpan(0, 0, 0, 0, 33); //30 ou 50? async ?
                 timer.Tick += AcquireInput;
                 timer.Start();
@@ -58,6 +55,8 @@ namespace JoystickSimulator.Controllers
         }
         private ObservableCollection<Joystick> connectedControllers;
 
+        private DispatcherTimer timer;
+
         /// <summary>
         /// Représente les boutons pressés, avec le timestamp originel
         /// </summary>
@@ -81,6 +80,7 @@ namespace JoystickSimulator.Controllers
             di = new DirectInput();
             InputValues = new Dictionary<JoystickOffset, double>();
             AxisState = new AxisState();
+            timer = new DispatcherTimer(); //Faisable en une ligne ?
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace JoystickSimulator.Controllers
         public void RefreshJoyStickList()
         {
             connectedControllers.Clear();
-            foreach (DeviceInstance deviceInstance in di.GetDevices())
+            foreach (DeviceInstance deviceInstance in di.GetDevices()) //Linq ?
             {
                 DeviceType type = deviceInstance.Type;
                 if (type == DeviceType.Joystick) //Linq possible, à voir
@@ -105,6 +105,12 @@ namespace JoystickSimulator.Controllers
         public void AcquireInput(object sender, EventArgs e)
         {
             //JoystickUpdate[] ControlerData = CurrentJoystick.GetBufferedData();
+
+            if (!IsCurrentControllerStillAttached()) {
+                timer.IsEnabled = false;
+                currentJoystick = null;
+                return;
+            }
 
             var controlerData = CurrentJoystick.GetBufferedData();
 
@@ -125,6 +131,10 @@ namespace JoystickSimulator.Controllers
             }
             //Les données ont été analysées, on fire l'event du MainWindow
             InputDataStored(sender, new InputPacketEventArgs());
+        }
+
+        private bool IsCurrentControllerStillAttached() {
+            return di.IsDeviceAttached(currentJoystick.Information.InstanceGuid);
         }
     }
 }

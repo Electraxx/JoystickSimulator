@@ -233,7 +233,6 @@ namespace JoystickSimulator
 
         public void UpdateTextblocks(List<double> labelList)
         {
-
             var txtBlocksAndValues = labelList.Zip(muscleLabels, (v, t) => new { Value = v, TxtBlock = t });
             foreach (var item in txtBlocksAndValues.Select((pair, i) => new { i, pair }))
                 item.pair.TxtBlock.Text = $" Verrin {item.i}\n{item.pair.Value:0.00}";

@@ -40,21 +40,39 @@ namespace JoystickSimulator.Helpers
         public ConfigManager()
         {
             Support = new List<Point3D> {
-                new Point3D(51,     0,      3.5),
-                new Point3D(0,      82.5,   0),
-                new Point3D(0,      93.5,   0),
-                new Point3D(113,    93.5,   0),
-                new Point3D(113,    82.5,   0),
-                new Point3D(62,     0,      3.5)
+                new Point3D(52,     0,      0),
+                new Point3D(0,      81,   0),
+                new Point3D(0,      91,   0),
+                new Point3D(113,    91,   0),
+                new Point3D(113,    81,   0),
+                new Point3D(61,     0,    0)
             };
 
-            Seat = new List<Point3D> {
-                new Point3D(0,      0,      3.5),
-                new Point3D(0,      9,      0),
-                new Point3D(15.5,   89,     0),
-                new Point3D(60.25,  89,     0),
-                new Point3D(75.5,   9,      0),
-                new Point3D(75.5,   0,      3.5)
+            //Support = new List<Point3D> {
+            //    new Point3D(51,     0,      3.5),
+            //    new Point3D(0,      82.5,   0),
+            //    new Point3D(0,      93.5,   0),
+            //    new Point3D(113,    93.5,   0),
+            //    new Point3D(113,    82.5,   0),
+            //    new Point3D(62,     0,      3.5)
+            //};
+
+            //Seat = new List<Point3D> {
+            //    new Point3D(0,      0,      3.5),
+            //    new Point3D(0,      9,      0),
+            //    new Point3D(15.5,   89,     0),
+            //    new Point3D(60.25,  89,     0),
+            //    new Point3D(75.5,   9,      0),
+            //    new Point3D(75.5,   0,      3.5)
+            //};
+
+            Seat = new List<Point3D> {          //INFO largeur 76
+                new Point3D(0,      0,      0), //INFO Hauteur 91 --> 76x91 
+                new Point3D(0,      11,      0),
+                new Point3D(15.5,   91,     0),
+                new Point3D(61,  91,     0),
+                new Point3D(76,   11,      0),
+                new Point3D(76,   0,      0)
             };
 
             Offset = new Vector3D(-18.75, -32.5, 67);

@@ -23,7 +23,7 @@ namespace JoystickSimulator.Models
         {
             if (inputs.Count == 0) //Pas de boutons pressés --> On retourne l'action par défaut
                 return ActionList.GetActionByName("MoveNeutralPoint");
-
+            //TODO représentatif point rotation
             //On trouve la bonne action (normalement il n'en retournera qu'une)
             //Requête Linq comparant 2 hashset pour regarder à quel action il correspond, on vérifie aussi le temps minimal de la pression du bouton
             IEnumerable<InputAction> results = ActionList.List.Where(action =>
@@ -32,6 +32,18 @@ namespace JoystickSimulator.Models
                 inputs.Values.ToList().Min() >= action.TimeNeeded);
            
             //Si on a un résultat, on le renvoie sinon, action par défaut
+            return results.Any() ? results.First() : ActionList.GetActionByName("MoveNeutralPoint");
+        }
+        public InputAction GetA3ection(Dictionary<JoystickOffset, double> inputs)
+        {
+            if (inputs.Count == 0) //Pas de boutons pressés --> On retourne l'action par défaut
+                return ActionList.GetActionByName("MoveNeutralPoint");
+
+            IEnumerable<InputAction> results = ActionList.List.Where(action =>
+                new HashSet<JoystickOffset>(inputs.Keys.ToList()).SetEquals(
+                    new HashSet<JoystickOffset>(action.ButtonNeeded)) &&
+                inputs.Values.ToList().Min() >= action.TimeNeeded);
+
             return results.Any() ? results.First() : ActionList.GetActionByName("MoveNeutralPoint");
         }
     }
