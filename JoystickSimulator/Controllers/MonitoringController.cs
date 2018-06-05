@@ -32,18 +32,18 @@ namespace JoystickSimulator.Controllers
                 ProtocolType.Udp);
         }
 
-        public void SendTo(UDPPacket packet)
-        {
-            //Le packet nous renvoie une version sérialisée
-            String csv = packet.GetCsv();
-            Console.WriteLine("sent : " + csv);
-            //On la transforme en bytes en précisant l'encodage
-            byte[] data = Encoding.UTF8.GetBytes(csv);
+        //public void SendTo(UDPPacket packet)
+        //{
+        //    //Le packet nous renvoie une version sérialisée
+        //    String csv = packet.GetCsv();
+        //    Console.WriteLine("sent : " + csv);
+        //    //On la transforme en bytes en précisant l'encodage
+        //    byte[] data = Encoding.UTF8.GetBytes(csv);
 
-            //On envoie les données à la cible
-            _socket.SendTo(data, EP);
-        }
+        //    //On envoie les données à la cible
+        //    _socket.SendTo(data, EP);
+        //}
 
     }
 }
-}
+//}
